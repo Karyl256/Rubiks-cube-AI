@@ -20,21 +20,21 @@ impl Cube {
         let temp2 = self.data[0][5];
         let temp3 = self.data[0][2];
         
-        self.data[0][8] = self.data[2][2];
+        self.data[0][8] = self.data[2][8];
         self.data[0][5] = self.data[2][5];
-        self.data[0][2] = self.data[2][8];
+        self.data[0][2] = self.data[2][2];
         
-        self.data[2][2] = self.data[5][2];
-        self.data[2][5] = self.data[5][5];
         self.data[2][8] = self.data[5][8];
+        self.data[2][5] = self.data[5][5];
+        self.data[2][2] = self.data[5][2];
         
-        self.data[5][2] = self.data[4][6];
-        self.data[5][5] = self.data[4][3];
         self.data[5][8] = self.data[4][0];
+        self.data[5][5] = self.data[4][3];
+        self.data[5][2] = self.data[4][6];
         
-        self.data[4][6] = temp1;
+        self.data[4][0] = temp1;
         self.data[4][3] = temp2;
-        self.data[4][0] = temp3;
+        self.data[4][6] = temp3;
     }
     #[allow(dead_code)]
     pub fn r_reverse(&mut self) {
@@ -53,13 +53,13 @@ impl Cube {
         self.data[3][3] = temp;
         
         // Reverse rotate outside of right side
-        let temp1 = self.data[0][8];
+        let temp1 = self.data[0][2];
         let temp2 = self.data[0][5];
-        let temp3 = self.data[0][2];
+        let temp3 = self.data[0][8];
         
-        self.data[0][8] = self.data[4][6];
+        self.data[0][2] = self.data[4][6];
         self.data[0][5] = self.data[4][3];
-        self.data[0][2] = self.data[4][0];
+        self.data[0][8] = self.data[4][0];
         
         self.data[4][6] = self.data[5][2];
         self.data[4][3] = self.data[5][5];
@@ -77,8 +77,8 @@ impl Cube {
     pub fn l(&mut self) {
         // Rotate left side corners
         let temp = self.data[1][0];
-        self.data[1][6] = self.data[1][8];
         self.data[1][0] = self.data[1][6];
+        self.data[1][6] = self.data[1][8];
         self.data[1][8] = self.data[1][2];
         self.data[1][2] = temp;
         // Rotate left side edges
@@ -92,13 +92,13 @@ impl Cube {
         let temp2 = self.data[0][3];
         let temp3 = self.data[0][6];
         
-        self.data[0][0] = self.data[4][2];
+        self.data[0][0] = self.data[4][8];
         self.data[0][3] = self.data[4][5];
-        self.data[0][6] = self.data[4][8];
+        self.data[0][6] = self.data[4][2];
         
-        self.data[4][2] = self.data[5][0];
+        self.data[4][8] = self.data[5][0];
         self.data[4][5] = self.data[5][3];
-        self.data[4][8] = self.data[5][6];
+        self.data[4][2] = self.data[5][6];
         
         self.data[5][0] = self.data[2][0];
         self.data[5][3] = self.data[2][3];
@@ -137,13 +137,13 @@ impl Cube {
         self.data[2][3] = self.data[5][3];
         self.data[2][6] = self.data[5][6];
 
-        self.data[5][0] = self.data[4][2];
+        self.data[5][0] = self.data[4][8];
         self.data[5][3] = self.data[4][5];
-        self.data[5][6] = self.data[4][8];
+        self.data[5][6] = self.data[4][2];
 
-        self.data[4][2] = temp3;
+        self.data[4][8] = temp3;
         self.data[4][5] = temp2;
-        self.data[4][8] = temp1;
+        self.data[4][2] = temp1;
     }
     #[allow(dead_code)]
     pub fn u(&mut self) {
@@ -177,9 +177,9 @@ impl Cube {
         self.data[3][1] = self.data[4][1];
         self.data[3][2] = self.data[4][2];
         
-        self.data[4][0] = temp3;
+        self.data[4][0] = temp1;
         self.data[4][1] = temp2;
-        self.data[4][2] = temp1;
+        self.data[4][2] = temp3;
     }
     #[allow(dead_code)]
     pub fn u_reverse(&mut self) {
@@ -291,6 +291,7 @@ impl Cube {
         self.data[4][7] = temp2;
         self.data[4][8] = temp3;
     }
+    // LGTM
     #[allow(dead_code)]
     pub fn f(&mut self) {
         //Rotate front corners
@@ -326,6 +327,45 @@ impl Cube {
         self.data[3][6] = temp1;
         self.data[3][3] = temp2;
         self.data[3][0] = temp3;
+    }
+
+
+
+    #[allow(dead_code)]
+    pub fn b(&mut self) {
+        //Rotate front corners
+        let temp = self.data[4][0];
+        self.data[4][0] = self.data[4][6];
+        self.data[4][6] = self.data[4][8];
+        self.data[4][8] = self.data[4][2];
+        self.data[4][2] = temp;
+        //Rotate front side edges
+        let temp = self.data[4][1];
+        self.data[4][1] = self.data[4][3];
+        self.data[4][3] = self.data[4][7];
+        self.data[4][7] = self.data[4][5];
+        self.data[4][5] = temp;
+
+        // Rotate outside of front side
+        let temp1 = self.data[0][0];
+        let temp2 = self.data[0][1];
+        let temp3 = self.data[0][2];
+        
+        self.data[0][0] = self.data[3][2];
+        self.data[0][1] = self.data[3][5];
+        self.data[0][2] = self.data[3][8];
+        
+        self.data[3][2] = self.data[5][8];
+        self.data[3][5] = self.data[5][7];
+        self.data[3][8] = self.data[5][6];
+        
+        self.data[5][8] = self.data[1][0];
+        self.data[5][7] = self.data[1][3];
+        self.data[5][6] = self.data[1][6];
+        
+        self.data[1][0] = temp1;
+        self.data[1][3] = temp2;
+        self.data[1][6] = temp3;
     }
 
 

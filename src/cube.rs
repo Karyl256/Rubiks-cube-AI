@@ -46,18 +46,18 @@ impl fmt::Display for Color {
         }
     }
 }
-
+//[Color::Yellow, Color::Blue, Color::Red, Color::Green, Color::Orange, Color::White];
 impl Default for Cube {
     fn default() -> Self {
-        let mut data: [[Color; 9]; 6] = [[const { Color::White }; 9]; 6];
-        let faces_colors = [Color::Yellow, Color::Blue, Color::Red, Color::Green, Color::Orange, Color::White];
-        for (face_index, color) in faces_colors.iter().enumerate() {
-            for i in 0..9 {
-                data[face_index][i] =  *color;
-            }
-        }
         Self {
-            data
+            data: [
+                [Color::Yellow; 9],
+                [Color::Blue; 9], 
+                [Color::Red; 9], 
+                [Color::Green; 9], 
+                [Color::Orange; 9], 
+                [Color::White; 9]
+            ]
         }
     }
 }
