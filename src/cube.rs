@@ -19,11 +19,7 @@ impl Cube {
 }
 
 
-
-#[allow(dead_code)]
-#[derive(Default)]
-#[derive(Clone)]
-#[derive(Copy)]
+#[derive(PartialEq, Eq, Default, Clone, Copy, Debug)]
 pub enum Color {
     #[default]
     White,
@@ -31,7 +27,9 @@ pub enum Color {
     Red,
     Orange,
     Green,
-    Blue
+    Blue,
+    #[cfg(test)]
+    Debug(i32),
 }
 
 impl fmt::Display for Color {
@@ -43,10 +41,12 @@ impl fmt::Display for Color {
             Color::Orange => write!(f, "{}", "  ".on_truecolor(255, 150, 46)),
             Color::Green => write!(f, "{}", "  ".on_green()),
             Color::Blue => write!(f, "{}", "  ".on_blue()),
+            #[cfg(test)]
+            Color::Debug(i) => write!(f, "{:2}", i),
         }
     }
 }
-//[Color::Yellow, Color::Blue, Color::Red, Color::Green, Color::Orange, Color::White];
+
 impl Default for Cube {
     fn default() -> Self {
         Self {

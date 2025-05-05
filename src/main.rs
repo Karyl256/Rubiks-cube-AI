@@ -35,7 +35,7 @@ fn main() {
     cube.print(); println!();
     cube.d_reverse();
     cube.print(); println!();
-    cube.b(); cube.b(); cube.b();
+    cube.b_reverse();
     cube.print(); println!();
     cube.l();
     cube.print(); println!();
@@ -43,7 +43,4 @@ fn main() {
     cube.print(); println!();
     cube.u();
     cube.print(); println!();
-    //Up wrong! (mirrored)
-    //Back bottom left kinda wrong propably because of other algorithms
-    //Also at back top is flipped
 }
