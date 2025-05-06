@@ -1,8 +1,13 @@
 use rand::Rng;
+use rand_distr::{Distribution, Normal};
+use serde::{Serialize, Deserialize};
 
-
+use std::fs::{self, File};
+use std::io::Write;
+use bincode;
 
 #[allow(dead_code)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct NeuralNetwork {
     pub layers: Vec<Layer>,
 }
@@ -29,6 +34,40 @@ impl NeuralNetwork {
 
         output
     }
+
+    #[allow(dead_code)]
+    pub fn mutate(&self, mutation_rate: f32, change: f32) -> Self {
+        let mut clone = self.clone();
+
+        let mut rng = rand::rng();
+        let normal = Normal::new(0.0, change).unwrap();
+
+        for layer in &mut clone.layers {
+            for (i, node) in layer.weights.iter_mut().enumerate() {
+                for weight in node {
+                    if rng.random_range(0.0..1.0) < mutation_rate {
+                        *weight += normal.sample(&mut rng) as f32;
+                    }
+                }
+                layer.biases[i] += normal.sample(&mut rng) as f32;
+            }
+        }
+
+        clone
+    }
+
+    #[allow(dead_code)]
+    pub fn save(&self, path: &str) {
+        let encoded = bincode::serialize(self).unwrap();
+        let mut file = File::create(path).unwrap();
+        file.write_all(&encoded).unwrap();
+    }
+    
+    #[allow(dead_code)]
+    pub fn load_network(path: &str) -> Self {
+        let data = fs::read(path).unwrap();
+        bincode::deserialize(&data).unwrap()
+    }
 }
 
 #[allow(dead_code)]
@@ -37,6 +76,7 @@ pub fn activation_relu(input: f32) -> f32 {
 }
 
 #[allow(dead_code)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Layer {
     pub weights: Vec<Vec<f32>>,
     pub biases: Vec<f32>,
